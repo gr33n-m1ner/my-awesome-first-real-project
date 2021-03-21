@@ -1,14 +1,22 @@
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 
-public class source {
-    public static void main(String[] args) {
+public class Source {
+    public static void main(String[] args) throws IOException {
 
-        int id = 227995590, count = 1;
+        // 227995590
+
+        BufferedReader In = new BufferedReader(new InputStreamReader(System.in));
+        int id = Integer.parseInt(In.readLine());
+        int count = Integer.parseInt(In.readLine());
+
         String token = "a6304274a6304274a630427449a646a8a8aa630a6304274c6615027e743748aff31bf1d";
 
         HttpClient client = HttpClient.newHttpClient();
