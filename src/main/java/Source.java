@@ -21,21 +21,19 @@ public class Source {
         return prov;
     }
 
-    private static String getWallPosts(String ownerId, int count) throws InterruptedException, IOException {
+    private static String getWallPosts(String ownerId, int count) {
 
         String url = "https://api.vk.com/method/wall.get?owner_id=" + ownerId + "&count=" + count + "&access_token=" + token + "&v=5.52";
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
                 .build();
 
-        String response = client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+        return client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
                 .thenApply(HttpResponse::body)
                 .join();
-
-        return response.toString();
     }
 
-    public static void main(String[] args) throws IOException, InterruptedException {
+    public static void main(String[] args) throws IOException {
         // 227995590
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("ID страницы, с которой вы хотите взять посты");
