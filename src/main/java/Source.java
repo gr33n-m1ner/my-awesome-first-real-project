@@ -9,15 +9,25 @@ import java.net.http.HttpResponse;
 
 public class Source {
     public static HttpClient client = HttpClient.newHttpClient();
+    public static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
     public static String token = "a6304274a6304274a630427449a646a8a8aa630a6304274c6615027e743748aff31bf1d";
 
     public static boolean isInt(String input) {
         boolean checkInt = true;
-        char [] q = input.toCharArray();
+        char [] charArrayInput = input.toCharArray();
         for (int i = 0; i < input.length(); ++i) {
-            checkInt = checkInt && (int) q[i] >= (int) '0' && (int) q[i] <= (int) '9';
+            checkInt = checkInt && charArrayInput[i] >= '0' && charArrayInput[i] <= '9';
         }
         return checkInt;
+    }
+
+    public static String checkInput() throws IOException {
+        String input = in.readLine();
+        boolean correctInput = isInt(input);
+        if (correctInput)
+            return input;
+        System.out.println("Входные данные должны состоять из цифр");
+        return checkInput();
     }
 
     private static String getWallPosts(String ownerId, String count) {
@@ -34,32 +44,21 @@ public class Source {
 
     public static void main(String[] args) throws IOException {
         // 227995590
-        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("ID страницы, с которой вы хотите взять посты");
-        String id = null;
 
-        boolean correctInput = false;
+        System.out.println("ID страницы, с которой вы хотите взять посты. ID состоит из 9 цифр");
+        String id = "";
         boolean ifIncorrect = false;
-        while (!correctInput) {
-            if (ifIncorrect) System.out.println("Id должен состоять из 9 цифр. Попробуйте еще раз");
-            String input = in.readLine();
-            correctInput = isInt(input) && input.length() == 9;
-            ifIncorrect = true;
-            id = input;
-        }
 
+        while (id.length() != 9) {
+            if (ifIncorrect)
+                System.out.println("Id должен состоять из 9 цифр");
+            id = checkInput();
+            ifIncorrect = true;
+        }
         System.out.println("Количество постов");
-        String count = null;
+        String count;
 
-        correctInput = false;
-        ifIncorrect = false;
-        while (!correctInput) {
-            if (ifIncorrect) System.out.println("Количество постов нужно задавать числом. Попробуйте еще раз");
-            String input = in.readLine();
-            correctInput = isInt(input);
-            ifIncorrect = true;
-            count = input;
-        }
+        count = checkInput();
         
         String response;
         response = getWallPosts(id, count);
